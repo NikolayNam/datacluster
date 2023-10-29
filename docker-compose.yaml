@@ -1,0 +1,25 @@
+version: "1.0"
+services:
+    web:
+        container_name: nginx
+        restart: always
+        build: ./nginx
+        ports:
+          - "80:80"
+          - "443:443"
+        depends_on:
+          - api
+        env_file:
+          - .env
+        volumes:
+          - ./ssl:/etc/nginx/ssl
+    api:
+        container_name: api
+        restart: always
+        build: ./api
+        volumes:
+          - ./ssl:/etc/nginx/ssl
+        env_file:
+          - .env
+        ports:
+          - "8080:8080"
